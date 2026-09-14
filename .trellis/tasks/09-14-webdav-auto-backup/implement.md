@@ -49,7 +49,7 @@
 
 - [ ] RED：测试 9（密码回填）、测试 8 的另一半（sha256 不匹配拒绝且本地未改动）
 - [ ] `ConfigSyncSettings` 存储态 / `ConfigSyncSettingsView` 视图态（无 password，只有 `has_password`）
-- [ ] 命令 `config_sync_load_settings` / `config_sync_save_settings`（`password_touched: false` 沿用旧值）
+- [ ] 命令 `config_sync_load_settings` / `config_sync_save_settings`（`password: Option<String>`，`None` 与空串均沿用旧值）
 - [ ] `commands/config_sync/webdav_sync.rs`：
   - `upload_core`：采集 → 算 sha256 → `ensure_dir` → **先 PUT config.json，再 PUT manifest.json**
   - `download_core`：GET manifest → GET config → 校验 sha256 与 size → 不匹配则拒绝
@@ -78,7 +78,9 @@
 - [ ] `src/components/settings/config-sync-settings.tsx`：
   - 「本地备份」组：导出 / 导入（导入前用 peek 结果弹确认）
   - 「WebDAV 同步」组：地址 / 账号 / 密码 / 远端目录 / profile / 自动同步开关 / 周期；测试连接、立即上传、立即下载
-  - 密码框未改动时提交 `passwordTouched: false`
+  - 密码框始终空值渲染，已保存时占位提示「已保存，留空则不修改」
+  - 「同步范围」卡：包含 / 不包含 两栏，把 PRD R1 的范围决策摄在界面上
+  - 服务商预设：坚果云 / Nextcloud / 群晖 NAS / 自定义，纯前端地址模板 + 帮助文案，不引入后端专属逻辑
   - 显示 `lastSyncAt` / `lastError`
   - **文案必须明确写出**：同步配置，不含对话历史与上传文件；同步是合并不是镜像（本地多余项不会被删除）
 - [ ] 与既有 `backup-settings.tsx` 的 `SettingCard` / `SettingRow` 风格保持一致

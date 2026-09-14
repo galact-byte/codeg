@@ -181,7 +181,9 @@ struct ConfigSyncSettingsView { // 回传前端，无 password
 }
 ```
 
-**密码回填**：保存时前端传 `password_touched: bool`，为 `false` 则沿用库里旧值。LiveAgent 记录的真实 bug：UI 给密码框填掩码占位符后原样提交，把占位符当新密码写库，下次同步认证失败。需要一条单测覆盖。
+**密码回填**：保存命令的参数是 `password: Option<String>`，`None` 或空串一律沿用库里旧值。前端密码框始终以空值渲染，占位提示「已保存，留空则不修改」。
+
+不采用掩码占位符方案。LiveAgent 记录的真实 bug：UI 给密码框填掩码字符后原样提交，把掩码当新密码写库，下次同步认证失败。issue #633 截图里作者那一版也已经是「留空则不修改」。只用这一个机制，不额外引入 `passwordTouched` 标志位——标志位与值两个真相源会在「用户清空输入框想删密码」这种边界上互相打架。需要一条单测覆盖空串不覆盖旧值。
 
 ## 9. 回退快照
 
@@ -205,14 +207,14 @@ Rust：
 6. upsert 语义：本地多余行在应用后仍存在；同自然键的行被更新而非重复插入
 7. `agent_setting.model_provider_id` 跨机重映射正确
 8. manifest 校验：sha256 不匹配 → 拒绝且本地未改动；`schemaVersion` 更高 → 拒绝并给升级提示
-9. 密码回填：`password_touched: false` 不覆盖旧密码
+9. 密码回填：`password: None` 与 `password: Some("")` 均不覆盖旧密码
 10. 白名单与凭据键交集为空
 11. 传输层错误脱敏：错误信息不含密码
 12. 哈希比对：无变化时不产生上传调用（用假传输层断言调用次数为 0）
 13. 抑制守卫：持有期间周期任务跳过
 
 前端 vitest：
-14. 同步配置表单：未改密码时提交 `passwordTouched: false`
+14. 同步配置表单：未改密码时提交空串，保存后 `hasPassword` 仍为 true
 15. 状态事件更新 UI 的「上次同步 / 上次错误」显示
 
 WebDAV 传输层的真实网络行为不做自动化，在 prd.md 验收清单里对真实网盘手工走。
