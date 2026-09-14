@@ -1590,6 +1590,27 @@
     "agentsLoading": "Agent-Einstellungen werden geladen...",
     "skillPacksLoading": "Skill-Pakete werden geladen…"
   },
+  "CloseBehaviorSettings": {
+    "title": "Verhalten der Schließen-Schaltfläche",
+    "description": "Lege fest, was die Schließen-Schaltfläche des Hauptfensters bewirkt.",
+    "trayUnavailable": "Dieses System bietet keinen nutzbaren Infobereich, daher beendet die Schließen-Schaltfläche codeg immer.",
+    "behaviorAsk": "Jedes Mal fragen",
+    "behaviorMinimize": "In den Infobereich minimieren",
+    "behaviorExit": "codeg beenden",
+    "saveFailed": "Schließverhalten konnte nicht gespeichert werden: {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "codeg schließen?",
+    "askDescription": "codeg kann im Infobereich weiterlaufen, damit Agenten und Terminals aktiv bleiben – oder vollständig beendet werden.",
+    "confirmExitTitle": "codeg beenden?",
+    "confirmExitDescription": "Das Schließen des Fensters ist so eingestellt, dass codeg beendet wird.",
+    "runningTerminals": "{count, plural, one {# Terminal läuft noch und wird beim Beenden geschlossen.} other {# Terminals laufen noch und werden beim Beenden geschlossen.}}",
+    "remember": "Meine Auswahl merken",
+    "cancel": "Abbrechen",
+    "minimize": "In den Infobereich minimieren",
+    "exit": "codeg beenden",
+    "actionFailed": "Aktion fehlgeschlagen: {message}"
+  },
   "GeneralSettings": {
     "loading": "Wird geladen...",
     "sectionTitle": "Allgemein",

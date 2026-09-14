@@ -1590,6 +1590,27 @@
     "agentsLoading": "Carregando configurações de agentes...",
     "skillPacksLoading": "Carregando pacotes de habilidades…"
   },
+  "CloseBehaviorSettings": {
+    "title": "Comportamento do botão Fechar",
+    "description": "Escolha o que o botão Fechar da janela principal faz.",
+    "trayUnavailable": "Este sistema não tem uma bandeja utilizável, portanto o botão Fechar sempre encerra o codeg.",
+    "behaviorAsk": "Perguntar sempre",
+    "behaviorMinimize": "Minimizar para a bandeja",
+    "behaviorExit": "Sair do codeg",
+    "saveFailed": "Falha ao salvar o comportamento de fechamento: {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "Fechar o codeg?",
+    "askDescription": "O codeg pode continuar em execução na bandeja para manter agentes e terminais ativos, ou encerrar por completo.",
+    "confirmExitTitle": "Sair do codeg?",
+    "confirmExitDescription": "Fechar a janela está configurado para encerrar o codeg.",
+    "runningTerminals": "{count, plural, one {# terminal ainda está em execução e será encerrado ao sair.} other {# terminais ainda estão em execução e serão encerrados ao sair.}}",
+    "remember": "Lembrar minha escolha",
+    "cancel": "Cancelar",
+    "minimize": "Minimizar para a bandeja",
+    "exit": "Sair do codeg",
+    "actionFailed": "Falha na ação: {message}"
+  },
   "GeneralSettings": {
     "loading": "Carregando...",
     "sectionTitle": "Geral",

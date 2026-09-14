@@ -1590,6 +1590,27 @@
     "agentsLoading": "載入 Agent 設定中...",
     "skillPacksLoading": "正在載入技能包…"
   },
+  "CloseBehaviorSettings": {
+    "title": "關閉按鈕行為",
+    "description": "選擇點擊主視窗關閉按鈕時的行為。",
+    "trayUnavailable": "目前系統沒有可用的系統匣，關閉按鈕將一律結束 codeg。",
+    "behaviorAsk": "每次詢問",
+    "behaviorMinimize": "最小化到系統匣",
+    "behaviorExit": "結束 codeg",
+    "saveFailed": "儲存關閉行為失敗：{message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "要關閉 codeg 嗎？",
+    "askDescription": "codeg 可以最小化到系統匣繼續執行，讓智能體與終端機保持運作；也可以完全結束。",
+    "confirmExitTitle": "要結束 codeg 嗎？",
+    "confirmExitDescription": "目前設定為：關閉視窗即結束 codeg。",
+    "runningTerminals": "還有 {count} 個終端機正在執行，結束後會全部中止。",
+    "remember": "記住我的選擇",
+    "cancel": "取消",
+    "minimize": "最小化到系統匣",
+    "exit": "結束 codeg",
+    "actionFailed": "操作失敗：{message}"
+  },
   "GeneralSettings": {
     "loading": "載入中...",
     "sectionTitle": "一般",

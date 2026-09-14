@@ -1590,6 +1590,27 @@
     "agentsLoading": "エージェント設定を読み込み中...",
     "skillPacksLoading": "スキルパックを読み込み中…"
   },
+  "CloseBehaviorSettings": {
+    "title": "閉じるボタンの動作",
+    "description": "メインウィンドウの閉じるボタンを押したときの動作を選択します。",
+    "trayUnavailable": "このシステムでは通知領域を利用できないため、閉じるボタンは常に codeg を終了します。",
+    "behaviorAsk": "毎回確認する",
+    "behaviorMinimize": "通知領域に最小化",
+    "behaviorExit": "codeg を終了",
+    "saveFailed": "閉じる動作の保存に失敗しました: {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "codeg を閉じますか？",
+    "askDescription": "通知領域に常駐してエージェントとターミナルを動かし続けることも、完全に終了することもできます。",
+    "confirmExitTitle": "codeg を終了しますか？",
+    "confirmExitDescription": "現在の設定では、ウィンドウを閉じると codeg が終了します。",
+    "runningTerminals": "{count} 個のターミナルが実行中です。終了するとすべて停止します。",
+    "remember": "この選択を記憶する",
+    "cancel": "キャンセル",
+    "minimize": "通知領域に最小化",
+    "exit": "codeg を終了",
+    "actionFailed": "操作に失敗しました: {message}"
+  },
   "GeneralSettings": {
     "loading": "読み込み中...",
     "sectionTitle": "一般",

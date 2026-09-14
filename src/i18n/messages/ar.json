@@ -1590,6 +1590,27 @@
     "agentsLoading": "جارٍ تحميل إعدادات الوكلاء...",
     "skillPacksLoading": "جارٍ تحميل حزم المهارات…"
   },
+  "CloseBehaviorSettings": {
+    "title": "سلوك زر الإغلاق",
+    "description": "اختر ما يفعله زر إغلاق النافذة الرئيسية.",
+    "trayUnavailable": "لا تتوفر منطقة إشعارات في هذا النظام، لذا يؤدي زر الإغلاق دائمًا إلى إنهاء codeg.",
+    "behaviorAsk": "السؤال في كل مرة",
+    "behaviorMinimize": "التصغير إلى منطقة الإشعارات",
+    "behaviorExit": "إنهاء codeg",
+    "saveFailed": "تعذر حفظ سلوك الإغلاق: {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "إغلاق codeg؟",
+    "askDescription": "يمكن أن يستمر codeg في العمل ضمن منطقة الإشعارات لإبقاء الوكلاء والطرفيات نشطة، أو أن يُنهى تمامًا.",
+    "confirmExitTitle": "إنهاء codeg؟",
+    "confirmExitDescription": "الإعداد الحالي يجعل إغلاق النافذة ينهي codeg.",
+    "runningTerminals": "لا تزال {count} من الطرفيات قيد التشغيل وسيتم إنهاؤها عند الخروج.",
+    "remember": "تذكّر اختياري",
+    "cancel": "إلغاء",
+    "minimize": "التصغير إلى منطقة الإشعارات",
+    "exit": "إنهاء codeg",
+    "actionFailed": "فشل تنفيذ الإجراء: {message}"
+  },
   "GeneralSettings": {
     "loading": "جارٍ التحميل...",
     "sectionTitle": "عام",
