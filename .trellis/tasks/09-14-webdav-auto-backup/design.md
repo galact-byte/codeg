@@ -83,6 +83,28 @@ pub const CONFIG_DOMAINS: &[ConfigDomain] = &[ ... ];
 
 其余排除项见 prd.md R1。
 
+## 3.5 可移植偏好白名单（阶段 0 核实后固定）
+
+对 `app_metadata` 实际在用的全部键逐个判定后的结果。
+
+**入白名单**：`system_language_settings`、`appearance_mode`、`appearance_zoom_level`、`system_close_behavior_settings`、`logging.level`、`delegation.enabled`、`delegation.depth_limit`、`delegation.agent_defaults`、`delegation.completed_cache_max_mb`、`feedback.enabled`、`question.enabled`、`session_info.enabled`、`chat_authoring.automations_enabled`、`chat_authoring.work_tasks_enabled`、`chat_command_prefix`、`chat_message_language`、`chat_event_filter`。
+
+`system_close_behavior_settings` 可以安全同步：关闭路径上 `can_hide_to_tray()` 在读偏好之前就短路了，所以把 `minimize` 推到一台没托盘的机器上不会造成无法关闭。
+
+**排除及理由**：
+
+| 键 | 理由 |
+|---|---|
+| `pet.config` | 包含 `active_pet_id`，指向 `pets` 目录里的磁盘资产；资产不同步，推过去就是指向空气。另含窗口几何，跨屏幕无意义 |
+| `git_settings` | `custom_path` 是 git 可执行文件的绝对路径 |
+| `forge_workbench_settings` | 按 scope 分区，scope 是“全局或某个 folder”，而 folder 是设备本地记录 |
+| `chat_event_webhooks` | webhook URL 常内嵌令牌，属凭据面 |
+| `github_accounts` | OAuth 凭据 |
+| `system_proxy_settings` / `system_terminal_settings` | 每机每网络不同 / 本机 shell 绝对路径 |
+| `web_service_port` / `web_service_token` / `web_service_auto_start` | 本机服务配置，含令牌 |
+| `canvas_revision` / `opened_tabs_version` / `token_usage_fact_schema_version` | 内部状态，非用户配置 |
+| `config_sync_settings` | 本功能自身的凭据，硬禁止（§8） |
+
 ## 4. 应用语义：按自然键 upsert，不删本地多余行
 
 **不采用「清空整表再插入」。** 理由：
@@ -94,9 +116,9 @@ pub const CONFIG_DOMAINS: &[ConfigDomain] = &[ ... ];
 
 | 域 | 自然键 |
 |---|---|
-| `modelProviders` | `(agent_type, name)` —— 该表无唯一索引，由实现层保证组合唯一性判断 |
-| `agentSettings` | 表上既有的唯一键（`m20260226_000001_agent_setting.rs` 中定义） |
-| `customAgents` | `registry_id`（表上唯一） |
+| `modelProviders` | `(agent_type, name)` —— 该表**确认无任何唯一索引**（阶段 0 核实），组合重复在现有数据中是可能的；命中多行时按 `id` 升序取第一行更新，其余不动——确定性优于“猜用户想改哪一行” |
+| `agentSettings` | `agent_type`（阶段 0 核实：`m20260226_000001_agent_setting.rs` 里只有 `AgentType` 带 `.unique_key()`，`registry_id` 并非唯一） |
+| `customAgents` | `registry_id` |
 | `quickMessages` | `title` |
 | `taskTemplates` | `name` |
 | `preferences` | `app_metadata.key`（白名单内叠加，白名单外本机原值保留） |
@@ -187,7 +209,9 @@ struct ConfigSyncSettingsView { // 回传前端，无 password
 
 ## 9. 回退快照
 
-应用远端/导入快照前，先把当前配置采集一份写到 `~/.codeg/config-snapshots/<rfc3339>.json`，保留最近 10 份（超出按时间删最旧）。目录需加入 `backup/sections.rs` 的排除考量确认——它不在任何 `MANAGED_SECTIONS` 的 live path 下，无需改动，但要在实现时确认这一点。
+应用远端/导入快照前，先把当前配置采集一份写到 `~/.codeg/config-snapshots/<rfc3339>.json`，保留最近 10 份（超出按时间删最旧）。
+
+阶段 0 已核实：`MANAGED_SECTIONS` 的 live path 共 8 项（uploads / acp-transcripts / turn-timings / backgrounds / pets / skills / tokens.json / preferences.json），`config-snapshots/` 不在其中，无需改动归档引擎。
 
 ## 10. 双模式与 cfg
 
