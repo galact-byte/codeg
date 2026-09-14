@@ -1,0 +1,6 @@
+{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "本任务贯穿 Rust 关闭分支、Tauri 命令、前端对话框与设置页，需按跨层改动的思路核对每一层契约"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "偏好读写要复用 app_metadata + system_settings 既有模式，退出要复用 app.exit(0) 清理路径，不另起炉灶"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "新增 close-request-dialog 组件需遵循组件划分与 props 约定"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "确定 close-behavior 目录与设置页组件的落位"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "对话框开关状态与设置项加载/保存状态的管理方式"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "CloseWindowBehavior 的 TS 镜像需与 Rust 枚举严格对齐"}

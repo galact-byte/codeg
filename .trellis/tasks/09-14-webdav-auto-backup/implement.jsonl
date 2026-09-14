@@ -1,0 +1,6 @@
+{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "配置同步横跨 DB 采集/应用、HTTP 传输、后台任务与设置 UI，需逐层核对契约与失败传播"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "域表模式照搬 backup/sections.rs 的单一真相表思路，HTTP 复用 reqwest，哈希复用 sha2，不新增依赖"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "config-sync-settings 需与既有 backup-settings 的 SettingCard/SettingRow 风格一致"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "确定设置页组件与 lib/config-sync.ts 的落位"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "同步配置表单状态、密码回填标记与后台状态事件的管理方式"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "ConfigSyncSettingsView 的 TS 镜像需与 Rust 视图态严格对齐，禁止把 password 带进前端类型"}

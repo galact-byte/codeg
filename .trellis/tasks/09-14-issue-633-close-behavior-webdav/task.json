@@ -1,0 +1,29 @@
+{
+  "id": "issue-633-close-behavior-webdav",
+  "name": "issue-633-close-behavior-webdav",
+  "title": "关闭行为选择与 WebDAV 自动备份 (issue #633)",
+  "description": "响应 issue #633：让用户可选择主窗口关闭按钮的行为（询问/最小化到托盘/退出），并在现有加密归档备份引擎之上增加 WebDAV 远端自动备份能力。父任务负责需求归集、子任务拆分与最终集成验收。",
+  "status": "planning",
+  "dev_type": null,
+  "scope": null,
+  "package": null,
+  "priority": "P2",
+  "creator": "galact",
+  "assignee": "galact",
+  "createdAt": "2026-09-14",
+  "completedAt": null,
+  "branch": null,
+  "base_branch": "main",
+  "worktree_path": null,
+  "commit": null,
+  "pr_url": null,
+  "subtasks": [],
+  "children": [
+    "09-14-close-behavior-choice",
+    "09-14-webdav-auto-backup"
+  ],
+  "parent": null,
+  "relatedFiles": [],
+  "notes": "",
+  "meta": {}
+}
