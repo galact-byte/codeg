@@ -61,3 +61,9 @@ src-tauri/binaries/
 # executable then sits untracked in the repo root — which is enough to fail a
 # work task's "worktree is clean" check at delivery.
 /rust_out
+
+# Per-developer AI agent platform config (skills, prompts, extensions).
+# Trellis regenerates these from `.trellis/` for whichever CLI each
+# developer runs, so they are a local choice, not a repo asset.
+.agents/
+.pi/
