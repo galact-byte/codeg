@@ -10,7 +10,10 @@ use crate::db::service::app_metadata_service;
 #[cfg(feature = "tauri-runtime")]
 use crate::db::AppDatabase;
 #[cfg(feature = "tauri-runtime")]
-use crate::models::{SystemAutostartSettings, SystemRenderingSettings};
+use crate::models::{
+    CloseWindowBehavior, SystemAutostartSettings, SystemCloseBehaviorSettings,
+    SystemCloseBehaviorSettingsView, SystemRenderingSettings,
+};
 use crate::models::{
     AvailableTerminalShells, SystemLanguageSettings, SystemProxySettings, SystemTerminalSettings,
     TerminalShellOption,
@@ -23,6 +26,10 @@ use crate::terminal::manager::resolve_shell;
 pub(crate) const SYSTEM_PROXY_SETTINGS_KEY: &str = "system_proxy_settings";
 pub(crate) const SYSTEM_LANGUAGE_SETTINGS_KEY: &str = "system_language_settings";
 pub(crate) const SYSTEM_TERMINAL_SETTINGS_KEY: &str = "system_terminal_settings";
+#[cfg(feature = "tauri-runtime")]
+pub(crate) const SYSTEM_CLOSE_BEHAVIOR_SETTINGS_KEY: &str = "system_close_behavior_settings";
+#[cfg(feature = "tauri-runtime")]
+pub(crate) const CLOSE_REQUEST_EVENT: &str = "app://close-request";
 pub(crate) const LANGUAGE_SETTINGS_UPDATED_EVENT: &str = "app://language-settings-updated";
 pub(crate) const TERMINAL_SETTINGS_UPDATED_EVENT: &str = "app://terminal-settings-updated";
 
@@ -277,6 +284,210 @@ pub(crate) async fn set_system_terminal_settings_core(
     );
 
     Ok(normalized)
+}
+
+// --- Close window behavior ---
+
+/// Mirror of [`CloseWindowBehavior`] for the atomic cache. The close handler is
+/// a synchronous window callback with no runtime to await a query on, so the
+/// preference has to be readable without touching the database.
+#[cfg(feature = "tauri-runtime")]
+mod close_behavior_code {
+    pub const ASK: u8 = 0;
+    pub const MINIMIZE: u8 = 1;
+    pub const EXIT: u8 = 2;
+}
+
+#[cfg(feature = "tauri-runtime")]
+static CLOSE_BEHAVIOR_CACHE: std::sync::atomic::AtomicU8 =
+    std::sync::atomic::AtomicU8::new(close_behavior_code::ASK);
+
+/// Whether a close prompt is already on screen. The close button stays clickable
+/// while the dialog is up, and every click re-enters `CloseRequested` — without
+/// this the user stacks a dialog per click and has to dismiss all of them.
+#[cfg(feature = "tauri-runtime")]
+static CLOSE_PROMPT_OPEN: std::sync::atomic::AtomicBool =
+    std::sync::atomic::AtomicBool::new(false);
+
+/// Payload of [`CLOSE_REQUEST_EVENT`]. One event covers both prompts so the
+/// frontend has a single listener and the backend a single de-dup flag.
+#[cfg(feature = "tauri-runtime")]
+#[derive(Debug, Clone, serde::Serialize)]
+pub struct CloseRequestPayload {
+    /// `"ask"` — offer both actions plus "remember my choice".
+    /// `"confirm_terminals"` — the action is already decided; confirm the loss.
+    pub mode: &'static str,
+    pub running_terminals: usize,
+}
+
+#[cfg(feature = "tauri-runtime")]
+pub(crate) fn cached_close_behavior() -> CloseWindowBehavior {
+    match CLOSE_BEHAVIOR_CACHE.load(std::sync::atomic::Ordering::Relaxed) {
+        close_behavior_code::MINIMIZE => CloseWindowBehavior::Minimize,
+        close_behavior_code::EXIT => CloseWindowBehavior::Exit,
+        _ => CloseWindowBehavior::Ask,
+    }
+}
+
+#[cfg(feature = "tauri-runtime")]
+pub(crate) fn store_close_behavior_cache(behavior: CloseWindowBehavior) {
+    let code = match behavior {
+        CloseWindowBehavior::Ask => close_behavior_code::ASK,
+        CloseWindowBehavior::Minimize => close_behavior_code::MINIMIZE,
+        CloseWindowBehavior::Exit => close_behavior_code::EXIT,
+    };
+    CLOSE_BEHAVIOR_CACHE.store(code, std::sync::atomic::Ordering::Relaxed);
+}
+
+/// Never returns an error. The close button is the user's last exit; a row this
+/// build cannot parse must degrade to asking, not to a window that refuses to
+/// close.
+#[cfg(feature = "tauri-runtime")]
+pub(crate) async fn load_system_close_behavior_settings(
+    conn: &DatabaseConnection,
+) -> SystemCloseBehaviorSettings {
+    let raw = match app_metadata_service::get_value(conn, SYSTEM_CLOSE_BEHAVIOR_SETTINGS_KEY).await {
+        Ok(Some(raw)) => raw,
+        Ok(None) => return SystemCloseBehaviorSettings::default(),
+        Err(err) => {
+            tracing::warn!("[settings] failed to read close behavior, defaulting to ask: {err}");
+            return SystemCloseBehaviorSettings::default();
+        }
+    };
+
+    match serde_json::from_str::<SystemCloseBehaviorSettings>(&raw) {
+        Ok(settings) => settings,
+        Err(err) => {
+            tracing::warn!("[settings] failed to parse close behavior, defaulting to ask: {err}");
+            SystemCloseBehaviorSettings::default()
+        }
+    }
+}
+
+/// Writes the row, then the cache. In that order: a failed write must not leave
+/// the running process obeying a preference the next launch will not remember.
+#[cfg(feature = "tauri-runtime")]
+pub(crate) async fn save_system_close_behavior_settings(
+    conn: &DatabaseConnection,
+    behavior: CloseWindowBehavior,
+) -> Result<SystemCloseBehaviorSettings, AppCommandError> {
+    let settings = SystemCloseBehaviorSettings { behavior };
+    let serialized = serde_json::to_string(&settings).map_err(|e| {
+        AppCommandError::invalid_input("Failed to serialize close behavior settings")
+            .with_detail(e.to_string())
+    })?;
+
+    app_metadata_service::upsert_value(conn, SYSTEM_CLOSE_BEHAVIOR_SETTINGS_KEY, &serialized)
+        .await
+        .map_err(AppCommandError::from)?;
+
+    store_close_behavior_cache(behavior);
+    Ok(settings)
+}
+
+/// Seeds the atomic at startup. The cache starts at its default every launch,
+/// so without this a user who picked "exit" months ago would be asked again.
+#[cfg(feature = "tauri-runtime")]
+pub async fn apply_persisted_close_behavior(conn: &DatabaseConnection) {
+    store_close_behavior_cache(load_system_close_behavior_settings(conn).await.behavior);
+}
+
+/// Gives the claim back when the prompt could not be delivered. Without it a
+/// failed emit would leave the flag set and the close button permanently dead.
+#[cfg(feature = "tauri-runtime")]
+pub(crate) fn release_close_prompt() {
+    CLOSE_PROMPT_OPEN.store(false, std::sync::atomic::Ordering::Release);
+}
+
+/// Claims the right to show one close prompt. `false` means one is already up.
+#[cfg(feature = "tauri-runtime")]
+pub(crate) fn try_open_close_prompt() -> bool {
+    CLOSE_PROMPT_OPEN
+        .compare_exchange(
+            false,
+            true,
+            std::sync::atomic::Ordering::AcqRel,
+            std::sync::atomic::Ordering::Acquire,
+        )
+        .is_ok()
+}
+
+#[cfg(feature = "tauri-runtime")]
+#[cfg_attr(feature = "tauri-runtime", tauri::command)]
+pub async fn get_system_close_behavior_settings(
+    db: State<'_, AppDatabase>,
+) -> Result<SystemCloseBehaviorSettingsView, AppCommandError> {
+    let settings = load_system_close_behavior_settings(&db.conn).await;
+    Ok(SystemCloseBehaviorSettingsView {
+        behavior: settings.behavior,
+        tray_available: crate::commands::windows::can_hide_to_tray(),
+    })
+}
+
+#[cfg(feature = "tauri-runtime")]
+#[cfg_attr(feature = "tauri-runtime", tauri::command)]
+pub async fn update_system_close_behavior_settings(
+    behavior: CloseWindowBehavior,
+    db: State<'_, AppDatabase>,
+) -> Result<SystemCloseBehaviorSettingsView, AppCommandError> {
+    let settings = save_system_close_behavior_settings(&db.conn, behavior).await?;
+    Ok(SystemCloseBehaviorSettingsView {
+        behavior: settings.behavior,
+        tray_available: crate::commands::windows::can_hide_to_tray(),
+    })
+}
+
+/// Carries out what the user picked in the close prompt.
+///
+/// `action` is `"minimize"`, `"exit"`, or `"cancel"`. `remember` pins the
+/// choice as the preference; it is ignored for `"cancel"`, which expresses no
+/// preference about future closes.
+///
+/// Releasing the prompt flag is the FIRST thing this does, so a persistence
+/// failure below cannot leave the flag stuck and the close button dead.
+#[cfg(feature = "tauri-runtime")]
+#[cfg_attr(feature = "tauri-runtime", tauri::command)]
+pub async fn resolve_close_request(
+    action: String,
+    remember: bool,
+    db: State<'_, AppDatabase>,
+    app: tauri::AppHandle,
+) -> Result<(), AppCommandError> {
+    release_close_prompt();
+
+    let behavior = match action.as_str() {
+        "minimize" => Some(CloseWindowBehavior::Minimize),
+        "exit" => Some(CloseWindowBehavior::Exit),
+        "cancel" => None,
+        other => {
+            return Err(AppCommandError::invalid_input(format!(
+                "Unknown close action: {other}"
+            )))
+        }
+    };
+
+    let Some(behavior) = behavior else {
+        return Ok(());
+    };
+
+    if remember {
+        save_system_close_behavior_settings(&db.conn, behavior).await?;
+    }
+
+    match behavior {
+        CloseWindowBehavior::Minimize => {
+            if let Some(window) = tauri::Manager::get_webview_window(&app, "main") {
+                let _ = window.hide();
+            }
+        }
+        // Reuses the tray-quit path: `exit` triggers `ExitRequested`, which
+        // sets `APP_QUITTING` and runs the ACP-disconnect / terminal-reclaim
+        // cleanup already wired there.
+        CloseWindowBehavior::Exit => tauri::Manager::app_handle(&app).exit(0),
+        CloseWindowBehavior::Ask => {}
+    }
+
+    Ok(())
 }
 
 #[cfg(feature = "tauri-runtime")]
@@ -973,5 +1184,110 @@ mod tests {
 
         assert_eq!(loaded.default_shell.as_deref(), Some("pwsh.exe"));
         assert!(!loaded.colorize_command_output);
+    }
+}
+
+#[cfg(all(test, feature = "tauri-runtime"))]
+mod close_behavior_tests {
+    use super::*;
+    use crate::db::test_helpers::fresh_in_memory_db;
+
+    /// `CLOSE_BEHAVIOR_CACHE` is a PROCESS global. Two of these running
+    /// concurrently (the default) would have one clobber the value the other
+    /// is about to assert on.
+    static CLOSE_BEHAVIOR_SERIAL: tokio::sync::Mutex<()> = tokio::sync::Mutex::const_new(());
+
+    /// Restores the cache on the way out, including on a panic — a test that
+    /// left `Exit` behind would make the next run of the "defaults to ask"
+    /// assertion fail for reasons unrelated to the code under test.
+    struct RestoreCloseBehavior(CloseWindowBehavior);
+
+    impl RestoreCloseBehavior {
+        fn capture() -> Self {
+            Self(cached_close_behavior())
+        }
+    }
+
+    impl Drop for RestoreCloseBehavior {
+        fn drop(&mut self) {
+            store_close_behavior_cache(self.0);
+        }
+    }
+
+    #[tokio::test]
+    async fn close_behavior_defaults_to_ask() {
+        let db = fresh_in_memory_db().await;
+
+        let loaded = load_system_close_behavior_settings(&db.conn).await;
+
+        assert_eq!(loaded.behavior, CloseWindowBehavior::Ask);
+    }
+
+    #[tokio::test]
+    async fn close_behavior_roundtrips() {
+        let db = fresh_in_memory_db().await;
+
+        save_system_close_behavior_settings(&db.conn, CloseWindowBehavior::Exit)
+            .await
+            .expect("save close behavior");
+        let loaded = load_system_close_behavior_settings(&db.conn).await;
+
+        assert_eq!(loaded.behavior, CloseWindowBehavior::Exit);
+    }
+
+    /// The close button is the user's last exit. A row this build cannot parse
+    /// — hand-edited, written by a newer build, or truncated — must degrade to
+    /// "ask", never to an error that leaves the window unclosable.
+    #[tokio::test]
+    async fn corrupt_close_behavior_falls_back_to_ask() {
+        for raw in [r#"not json"#, r#"{"behavior":"boom"}"#, r#"{}"#] {
+            let db = fresh_in_memory_db().await;
+            app_metadata_service::upsert_value(&db.conn, SYSTEM_CLOSE_BEHAVIOR_SETTINGS_KEY, raw)
+                .await
+                .expect("seed corrupt row");
+
+            let loaded = load_system_close_behavior_settings(&db.conn).await;
+
+            assert_eq!(
+                loaded.behavior,
+                CloseWindowBehavior::Ask,
+                "corrupt row {raw} should fall back to ask"
+            );
+        }
+    }
+
+    /// The close handler is a synchronous callback and reads the atomic, not
+    /// the database — so a save that updates only the row would be invisible
+    /// until the next launch.
+    #[tokio::test]
+    async fn cache_reflects_update() {
+        let _serial = CLOSE_BEHAVIOR_SERIAL.lock().await;
+        let _restore = RestoreCloseBehavior::capture();
+        let db = fresh_in_memory_db().await;
+
+        store_close_behavior_cache(CloseWindowBehavior::Ask);
+        save_system_close_behavior_settings(&db.conn, CloseWindowBehavior::Minimize)
+            .await
+            .expect("save close behavior");
+
+        assert_eq!(cached_close_behavior(), CloseWindowBehavior::Minimize);
+    }
+
+    /// Seeding is what makes the preference survive a restart: the atomic
+    /// starts at its default every launch, so a missing seed would silently
+    /// serve "ask" to a user who picked "exit" months ago.
+    #[tokio::test]
+    async fn startup_seeding_loads_persisted_behavior() {
+        let _serial = CLOSE_BEHAVIOR_SERIAL.lock().await;
+        let _restore = RestoreCloseBehavior::capture();
+        let db = fresh_in_memory_db().await;
+        save_system_close_behavior_settings(&db.conn, CloseWindowBehavior::Exit)
+            .await
+            .expect("save close behavior");
+        store_close_behavior_cache(CloseWindowBehavior::Ask);
+
+        apply_persisted_close_behavior(&db.conn).await;
+
+        assert_eq!(cached_close_behavior(), CloseWindowBehavior::Exit);
     }
 }

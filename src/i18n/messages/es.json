@@ -1590,6 +1590,27 @@
     "agentsLoading": "Cargando configuración de agentes...",
     "skillPacksLoading": "Cargando paquetes de habilidades…"
   },
+  "CloseBehaviorSettings": {
+    "title": "Comportamiento del botón de cerrar",
+    "description": "Elige qué hace el botón de cerrar de la ventana principal.",
+    "trayUnavailable": "Este sistema no tiene una bandeja utilizable, por lo que el botón de cerrar siempre sale de codeg.",
+    "behaviorAsk": "Preguntar cada vez",
+    "behaviorMinimize": "Minimizar a la bandeja",
+    "behaviorExit": "Salir de codeg",
+    "saveFailed": "No se pudo guardar el comportamiento de cierre: {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "¿Cerrar codeg?",
+    "askDescription": "codeg puede seguir ejecutándose en la bandeja para mantener activos los agentes y las terminales, o salir por completo.",
+    "confirmExitTitle": "¿Salir de codeg?",
+    "confirmExitDescription": "Cerrar la ventana está configurado para salir de codeg.",
+    "runningTerminals": "{count, plural, one {# terminal sigue en ejecución y se cerrará al salir.} other {# terminales siguen en ejecución y se cerrarán al salir.}}",
+    "remember": "Recordar mi elección",
+    "cancel": "Cancelar",
+    "minimize": "Minimizar a la bandeja",
+    "exit": "Salir de codeg",
+    "actionFailed": "La acción falló: {message}"
+  },
   "GeneralSettings": {
     "loading": "Cargando...",
     "sectionTitle": "General",

@@ -1590,6 +1590,27 @@
     "agentsLoading": "Chargement des paramètres des agents...",
     "skillPacksLoading": "Chargement des packs de compétences…"
   },
+  "CloseBehaviorSettings": {
+    "title": "Comportement du bouton Fermer",
+    "description": "Choisissez ce que fait le bouton Fermer de la fenêtre principale.",
+    "trayUnavailable": "Ce système ne dispose pas de zone de notification utilisable : le bouton Fermer quitte toujours codeg.",
+    "behaviorAsk": "Demander à chaque fois",
+    "behaviorMinimize": "Réduire dans la zone de notification",
+    "behaviorExit": "Quitter codeg",
+    "saveFailed": "Échec de l'enregistrement du comportement de fermeture : {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "Fermer codeg ?",
+    "askDescription": "codeg peut continuer à s'exécuter dans la zone de notification pour garder les agents et les terminaux actifs, ou quitter complètement.",
+    "confirmExitTitle": "Quitter codeg ?",
+    "confirmExitDescription": "La fermeture de la fenêtre est configurée pour quitter codeg.",
+    "runningTerminals": "{count, plural, one {# terminal est encore actif et sera fermé en quittant.} other {# terminaux sont encore actifs et seront fermés en quittant.}}",
+    "remember": "Mémoriser mon choix",
+    "cancel": "Annuler",
+    "minimize": "Réduire dans la zone de notification",
+    "exit": "Quitter codeg",
+    "actionFailed": "Échec de l'action : {message}"
+  },
   "GeneralSettings": {
     "loading": "Chargement...",
     "sectionTitle": "Général",

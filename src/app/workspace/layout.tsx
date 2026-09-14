@@ -75,6 +75,7 @@ import {
   PetFocusBridge,
 } from "@/components/workspace/deep-link-bootstrap"
 import { WorkspaceOpenFolderListener } from "@/components/workspace/workspace-open-folder-listener"
+import { CloseRequestDialog } from "@/components/workspace/close-request-dialog"
 import { HeavyPluginsWarmup } from "@/components/ai-elements/heavy-plugins-warmup"
 import {
   ResizableHandle,
@@ -1326,6 +1327,10 @@ export default function WorkspaceLayout({
 }) {
   return (
     <Suspense>
+      {/* Outside the gate on purpose: the close button has to be answerable
+          even while a remote connection is still resolving, and the event it
+          listens for only ever reaches the main window. */}
+      <CloseRequestDialog />
       <RemoteConnectionGate>
         <UpdateProvider>
           <WorkspaceLayoutInner>{children}</WorkspaceLayoutInner>

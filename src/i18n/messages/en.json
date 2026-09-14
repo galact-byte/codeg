@@ -1590,6 +1590,27 @@
     "agentsLoading": "Loading agent settings...",
     "skillPacksLoading": "Loading skill packs…"
   },
+  "CloseBehaviorSettings": {
+    "title": "Close Button Behavior",
+    "description": "Choose what the main window's close button does.",
+    "trayUnavailable": "This system has no usable tray, so the close button always exits codeg.",
+    "behaviorAsk": "Ask every time",
+    "behaviorMinimize": "Minimize to tray",
+    "behaviorExit": "Exit codeg",
+    "saveFailed": "Failed to save close behavior: {message}"
+  },
+  "CloseRequestDialog": {
+    "askTitle": "Close codeg?",
+    "askDescription": "codeg can keep running in the tray so agents and terminals stay alive, or exit completely.",
+    "confirmExitTitle": "Exit codeg?",
+    "confirmExitDescription": "Closing the window is set to exit codeg.",
+    "runningTerminals": "{count, plural, one {# terminal is still running and will be terminated on exit.} other {# terminals are still running and will be terminated on exit.}}",
+    "remember": "Remember my choice",
+    "cancel": "Cancel",
+    "minimize": "Minimize to tray",
+    "exit": "Exit codeg",
+    "actionFailed": "Action failed: {message}"
+  },
   "GeneralSettings": {
     "loading": "Loading...",
     "sectionTitle": "General",
