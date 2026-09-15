@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "Cela remplace tes données actuelles par l'instantané puis redémarre. Un instantané des données remplacées est pris avant."
     }
   },
+  "ConfigSyncSettings": {
+    "title": "Synchronisation de la configuration",
+    "description": "Transfère les fournisseurs de modèles, les réglages d’agents, les agents personnalisés, les messages rapides, les modèles de tâches et les préférences de l’app d’une machine à l’autre. Les conversations, les fichiers importés et les sessions CLI ne sont pas inclus : utilisez la sauvegarde pour cela.",
+    "scopeIncludedTitle": "Inclus",
+    "scopeExcludedTitle": "Non inclus",
+    "scopeIncluded": {
+      "providers": "Fournisseurs de modèles (avec clés API)",
+      "agentSettings": "Réglages des agents",
+      "customAgents": "Agents personnalisés",
+      "quickMessages": "Messages rapides",
+      "taskTemplates": "Modèles de tâches",
+      "preferences": "Préférences de l'app (langue, apparence, options)"
+    },
+    "scopeExcluded": {
+      "conversations": "Conversations et historique",
+      "uploads": "Fichiers et images importés",
+      "workspaces": "Projets et chemins de l'espace de travail",
+      "mcp": "Serveurs MCP (gérés par chaque CLI)",
+      "credentials": "Identifiants de connexion et jetons"
+    },
+    "fileTitle": "Fichier de configuration",
+    "exportButton": "Exporter vers un fichier",
+    "importButton": "Importer depuis un fichier",
+    "fileHint": "Écrit un seul fichier JSON que vous pouvez emporter sur une autre machine. L’import ajoute ou met à jour des entrées ; celles qui existent déjà mais sont absentes du fichier sont conservées.",
+    "webdavTitle": "Synchronisation WebDAV",
+    "webdavHint": "Envoie l’instantané de configuration vers votre propre serveur WebDAV.",
+    "presetLabel": "Serveur",
+    "preset": {
+      "jianguoyun": "Jianguoyun",
+      "nextcloud": "Nextcloud",
+      "synology": "NAS Synology",
+      "custom": "Personnalisé"
+    },
+    "presetHint": {
+      "jianguoyun": "Jianguoyun exige un mot de passe d'application créé dans les réglages de sécurité, pas le mot de passe de connexion.",
+      "nextcloud": "Remplacez le domaine et le nom d'utilisateur, puis utilisez un mot de passe d'application depuis Réglages → Sécurité.",
+      "synology": "Activez WebDAV Server dans le Centre de paquets DSM ; les ports par défaut sont 5005 (HTTP) et 5006 (HTTPS)."
+    },
+    "serverUrl": "URL du serveur",
+    "username": "Nom d’utilisateur",
+    "password": "Mot de passe",
+    "passwordKeep": "Laissez vide pour conserver le mot de passe enregistré",
+    "passwordPlaceholder": "Mot de passe d’application",
+    "remoteDir": "Dossier distant",
+    "profile": "Profil",
+    "profileHint": "Les machines qui partagent un profil partagent une même configuration. Utilisez des profils distincts pour séparer le travail et le personnel.",
+    "autoSyncLabel": "Envoyer automatiquement",
+    "autoSyncHint": "Vérifie régulièrement et n’envoie que si la configuration a changé.",
+    "intervalLabel": "Intervalle de vérification",
+    "intervalOption": "Toutes les {minutes} minutes",
+    "saveButton": "Enregistrer",
+    "testButton": "Tester la connexion",
+    "uploadButton": "Synchroniser maintenant",
+    "restoreButton": "Restaurer depuis le serveur",
+    "saved": "Réglages de synchronisation enregistrés",
+    "testSucceeded": "Connexion au serveur WebDAV établie",
+    "uploaded": "Configuration envoyée",
+    "exported": "Configuration exportée",
+    "restored": "{count, plural, one {# entrée appliquée} other {# entrées appliquées}}",
+    "imported": "{count, plural, one {# entrée appliquée} other {# entrées appliquées}}",
+    "noRemoteSnapshot": "Aucun instantané de configuration sur le serveur pour l’instant",
+    "lastSyncAt": "Dernière synchronisation : {time}",
+    "neverSynced": "Pas encore synchronisé",
+    "lastError": "Dernière erreur : {message}",
+    "working": "En cours…",
+    "plaintextWarning": "L’instantané est envoyé sans chiffrement et contient des clés d’API : utilisez un serveur WebDAV auquel vous seul avez accès. Les identifiants de synchronisation, eux, n’y figurent jamais.",
+    "importConfirmTitle": "Importer la configuration ?",
+    "importConfirmBody": "Les entrées du fichier seront ajoutées ou mises à jour sur cette machine. Les entrées existantes absentes du fichier sont conservées.",
+    "importBlocked": "Ce fichier ne peut pas être importé.",
+    "importConfirmAction": "Importer",
+    "restoreConfirmTitle": "Restaurer depuis le serveur ?",
+    "restoreConfirmBody": "L’instantané de {device} pris le {time} sera appliqué à cette machine. Les entrées existantes absentes de l’instantané sont conservées.",
+    "restoreConfirmAction": "Restaurer",
+    "cancel": "Annuler",
+    "emptySnapshot": "Cet instantané ne contient aucune entrée de configuration.",
+    "domain": {
+      "modelProviders": "{count, plural, one {# fournisseur de modèles} other {# fournisseurs de modèles}}",
+      "agentSettings": "{count, plural, one {# réglage d’agent} other {# réglages d’agents}}",
+      "customAgents": "{count, plural, one {# agent personnalisé} other {# agents personnalisés}}",
+      "quickMessages": "{count, plural, one {# message rapide} other {# messages rapides}}",
+      "taskTemplates": "{count, plural, one {# modèle de tâche} other {# modèles de tâches}}",
+      "preferences": "{count, plural, one {# préférence} other {# préférences}}"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "Espace disque insuffisant pour terminer l'opération.",
       "cancelled": "L'opération a été annulée."
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "Cet instantané a été créé par une version plus récente de codeg (format {snapshotVersion}) ; cette version gère au maximum le format {appVersion}.",
+      "checksum": "L’instantané ne correspond pas à sa somme de contrôle et pourrait être incomplet.",
+      "invalidSnapshot": "Ce fichier n’est pas un instantané de configuration codeg valide.",
+      "noRemoteSnapshot": "Aucun instantané de configuration sur le serveur pour l’instant.",
+      "notConfigured": "Configurez le serveur WebDAV avant de synchroniser.",
+      "unauthorized": "Le serveur WebDAV a refusé le nom d’utilisateur ou le mot de passe.",
+      "forbidden": "Le serveur WebDAV a refusé l’accès à ce dossier.",
+      "remotePath": "Le dossier distant ou le nom de profil n’est pas valide.",
+      "quota": "Le serveur WebDAV n’a plus d’espace disponible.",
+      "network": "Impossible de joindre le serveur WebDAV.",
+      "server": "Le serveur WebDAV a renvoyé une erreur ({status})."
     }
   },
   "WebConnection": {

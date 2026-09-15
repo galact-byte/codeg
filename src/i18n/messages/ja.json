@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "現在のデータをこのスナップショットで置き換えて再起動します。置き換えられるデータは先にスナップショットが取られます。"
     }
   },
+  "ConfigSyncSettings": {
+    "title": "設定同期",
+    "description": "モデルプロバイダー、エージェント設定、カスタムエージェント、クイックメッセージ、タスクテンプレート、アプリ設定を複数のマシン間で共有します。会話履歴やアップロードしたファイル、CLI セッション記録は含まれません——それらはバックアップを使ってください。",
+    "scopeIncludedTitle": "含まれるもの",
+    "scopeExcludedTitle": "含まれないもの",
+    "scopeIncluded": {
+      "providers": "モデルプロバイダー（API キーを含む）",
+      "agentSettings": "エージェント設定",
+      "customAgents": "カスタムエージェント",
+      "quickMessages": "クイックメッセージ",
+      "taskTemplates": "タスクテンプレート",
+      "preferences": "アプリ設定（言語・外観・切り替え）"
+    },
+    "scopeExcluded": {
+      "conversations": "会話履歴",
+      "uploads": "アップロードしたファイルと画像",
+      "workspaces": "ワークスペースのプロジェクトとパス",
+      "mcp": "MCP サーバー（各 CLI が管理）",
+      "credentials": "ログイン認証情報とトークン"
+    },
+    "fileTitle": "設定ファイル",
+    "exportButton": "ファイルに書き出す",
+    "importButton": "ファイルから読み込む",
+    "fileHint": "他のマシンに持ち運べる JSON ファイルを 1 つ作成します。読み込みでは項目を追加・更新し、ファイルにない既存項目は残ります。",
+    "webdavTitle": "WebDAV 同期",
+    "webdavHint": "設定スナップショットを自分の WebDAV サーバーにアップロードします。",
+    "presetLabel": "サーバー",
+    "preset": {
+      "jianguoyun": "Jianguoyun",
+      "nextcloud": "Nextcloud",
+      "synology": "Synology NAS",
+      "custom": "カスタム"
+    },
+    "presetHint": {
+      "jianguoyun": "Jianguoyun ではログインパスワードではなく、セキュリティ設定で作成するアプリパスワードが必要です。",
+      "nextcloud": "ドメインとユーザー名を置き換え、「設定 → セキュリティ」のアプリパスワードを使います。",
+      "synology": "DSM パッケージセンターで WebDAV Server を有効にします。既定ポートは 5005（HTTP）/ 5006（HTTPS）です。"
+    },
+    "serverUrl": "サーバー URL",
+    "username": "ユーザー名",
+    "password": "パスワード",
+    "passwordKeep": "空のままにすると保存済みのパスワードを使います",
+    "passwordPlaceholder": "アプリパスワード",
+    "remoteDir": "リモートフォルダー",
+    "profile": "プロファイル",
+    "profileHint": "同じプロファイルを使うマシンは同じ設定を共有します。仕事用と個人用を分けたい場合は別のプロファイル名にしてください。",
+    "autoSyncLabel": "自動でアップロード",
+    "autoSyncHint": "定期的に確認し、設定が変わったときだけ送信します。",
+    "intervalLabel": "確認間隔",
+    "intervalOption": "{minutes} 分ごと",
+    "saveButton": "保存",
+    "testButton": "接続テスト",
+    "uploadButton": "今すぐ同期",
+    "restoreButton": "リモートから復元",
+    "saved": "同期設定を保存しました",
+    "testSucceeded": "WebDAV サーバーに接続できました",
+    "uploaded": "設定をアップロードしました",
+    "exported": "設定を書き出しました",
+    "restored": "{count} 件の設定を適用しました",
+    "imported": "{count} 件の設定を適用しました",
+    "noRemoteSnapshot": "サーバーにはまだ設定スナップショットがありません",
+    "lastSyncAt": "最終同期：{time}",
+    "neverSynced": "まだ同期していません",
+    "lastError": "前回のエラー：{message}",
+    "working": "処理中…",
+    "plaintextWarning": "スナップショットは暗号化せずに送信され、API キーも含まれます。自分だけがアクセスできる WebDAV サーバーを使ってください。同期用の認証情報自体は含まれません。",
+    "importConfirmTitle": "設定を読み込みますか？",
+    "importConfirmBody": "ファイルの項目がこのマシンに追加・更新されます。ファイルにない既存項目はそのまま残ります。",
+    "importBlocked": "このファイルは読み込めません。",
+    "importConfirmAction": "読み込む",
+    "restoreConfirmTitle": "リモートから復元しますか？",
+    "restoreConfirmBody": "{device} が {time} に作成したスナップショットをこのマシンに適用します。スナップショットにない既存項目は残ります。",
+    "restoreConfirmAction": "復元",
+    "cancel": "キャンセル",
+    "emptySnapshot": "このスナップショットに設定項目はありません。",
+    "domain": {
+      "modelProviders": "モデルプロバイダー {count} 件",
+      "agentSettings": "エージェント設定 {count} 件",
+      "customAgents": "カスタムエージェント {count} 件",
+      "quickMessages": "クイックメッセージ {count} 件",
+      "taskTemplates": "タスクテンプレート {count} 件",
+      "preferences": "アプリ設定 {count} 件"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "操作を完了するためのディスク容量が足りません。",
       "cancelled": "操作はキャンセルされました。"
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "このスナップショットは新しいバージョンの codeg（形式 {snapshotVersion}）で作成されています。このバージョンは形式 {appVersion} まで対応しています。",
+      "checksum": "スナップショットがチェックサムと一致せず、壊れている可能性があります。",
+      "invalidSnapshot": "このファイルは有効な codeg 設定スナップショットではありません。",
+      "noRemoteSnapshot": "サーバーにはまだ設定スナップショットがありません。",
+      "notConfigured": "同期する前に WebDAV サーバーを設定してください。",
+      "unauthorized": "WebDAV サーバーがユーザー名またはパスワードを拒否しました。",
+      "forbidden": "WebDAV サーバーがこのフォルダーへのアクセスを拒否しました。",
+      "remotePath": "リモートフォルダーまたはプロファイル名が無効です。",
+      "quota": "WebDAV サーバーの空き容量がありません。",
+      "network": "WebDAV サーバーに接続できませんでした。",
+      "server": "WebDAV サーバーがエラーを返しました（{status}）。"
     }
   },
   "WebConnection": {

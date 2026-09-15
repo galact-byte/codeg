@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "Damit werden deine aktuellen Daten durch die Momentaufnahme ersetzt und die App startet neu. Von den ersetzten Daten wird vorher eine Momentaufnahme angelegt."
     }
   },
+  "ConfigSyncSettings": {
+    "title": "Konfigurationssynchronisierung",
+    "description": "Überträgt Modellanbieter, Agenteneinstellungen, eigene Agenten, Schnellnachrichten, Aufgabenvorlagen und App-Einstellungen zwischen Geräten. Unterhaltungen, hochgeladene Dateien und CLI-Sitzungsdaten sind nicht enthalten – dafür gibt es die Datensicherung.",
+    "scopeIncludedTitle": "Enthalten",
+    "scopeExcludedTitle": "Nicht enthalten",
+    "scopeIncluded": {
+      "providers": "Modellanbieter (inkl. API-Schlüssel)",
+      "agentSettings": "Agent-Einstellungen",
+      "customAgents": "Eigene Agenten",
+      "quickMessages": "Schnellnachrichten",
+      "taskTemplates": "Aufgabenvorlagen",
+      "preferences": "App-Einstellungen (Sprache, Aussehen, Schalter)"
+    },
+    "scopeExcluded": {
+      "conversations": "Unterhaltungen und Verlauf",
+      "uploads": "Hochgeladene Dateien und Bilder",
+      "workspaces": "Arbeitsbereich-Projekte und Pfade",
+      "mcp": "MCP-Server (gehören zur jeweiligen CLI)",
+      "credentials": "Anmeldedaten und Tokens"
+    },
+    "fileTitle": "Konfigurationsdatei",
+    "exportButton": "In Datei exportieren",
+    "importButton": "Aus Datei importieren",
+    "fileHint": "Schreibt eine einzelne JSON-Datei, die du auf ein anderes Gerät mitnehmen kannst. Beim Import werden Einträge ergänzt oder aktualisiert; vorhandene Einträge, die in der Datei fehlen, bleiben erhalten.",
+    "webdavTitle": "WebDAV-Synchronisierung",
+    "webdavHint": "Lädt den Konfigurations-Snapshot auf deinen eigenen WebDAV-Server.",
+    "presetLabel": "Server",
+    "preset": {
+      "jianguoyun": "Jianguoyun",
+      "nextcloud": "Nextcloud",
+      "synology": "Synology NAS",
+      "custom": "Benutzerdefiniert"
+    },
+    "presetHint": {
+      "jianguoyun": "Jianguoyun benötigt ein in den Sicherheitseinstellungen erstelltes App-Passwort, nicht das Login-Passwort.",
+      "nextcloud": "Ersetze Domain und Benutzernamen und verwende ein App-Passwort aus Einstellungen → Sicherheit.",
+      "synology": "Aktiviere WebDAV Server im DSM-Paketzentrum; Standardports sind 5005 (HTTP) und 5006 (HTTPS)."
+    },
+    "serverUrl": "Server-URL",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "passwordKeep": "Leer lassen, um das gespeicherte Passwort zu behalten",
+    "passwordPlaceholder": "App-Passwort",
+    "remoteDir": "Entfernter Ordner",
+    "profile": "Profil",
+    "profileHint": "Geräte mit demselben Profil teilen sich eine Konfiguration. Verwende getrennte Profile, um Arbeit und Privates zu trennen.",
+    "autoSyncLabel": "Automatisch hochladen",
+    "autoSyncHint": "Prüft regelmäßig und lädt nur hoch, wenn sich die Konfiguration geändert hat.",
+    "intervalLabel": "Prüfintervall",
+    "intervalOption": "Alle {minutes} Minuten",
+    "saveButton": "Speichern",
+    "testButton": "Verbindung testen",
+    "uploadButton": "Jetzt synchronisieren",
+    "restoreButton": "Vom Server wiederherstellen",
+    "saved": "Synchronisierungseinstellungen gespeichert",
+    "testSucceeded": "Verbindung zum WebDAV-Server hergestellt",
+    "uploaded": "Konfiguration hochgeladen",
+    "exported": "Konfiguration exportiert",
+    "restored": "{count, plural, one {# Eintrag übernommen} other {# Einträge übernommen}}",
+    "imported": "{count, plural, one {# Eintrag übernommen} other {# Einträge übernommen}}",
+    "noRemoteSnapshot": "Auf dem Server liegt noch kein Konfigurations-Snapshot",
+    "lastSyncAt": "Zuletzt synchronisiert: {time}",
+    "neverSynced": "Noch nicht synchronisiert",
+    "lastError": "Letzter Fehler: {message}",
+    "working": "Wird ausgeführt…",
+    "plaintextWarning": "Der Snapshot wird unverschlüsselt hochgeladen und enthält API-Schlüssel. Nutze daher einen WebDAV-Server, auf den nur du zugreifen kannst. Die Zugangsdaten der Synchronisierung selbst sind nie Teil des Snapshots.",
+    "importConfirmTitle": "Konfiguration importieren?",
+    "importConfirmBody": "Einträge aus der Datei werden auf diesem Gerät hinzugefügt oder aktualisiert. Vorhandene Einträge, die in der Datei nicht vorkommen, bleiben erhalten.",
+    "importBlocked": "Diese Datei kann nicht importiert werden.",
+    "importConfirmAction": "Importieren",
+    "restoreConfirmTitle": "Vom Server wiederherstellen?",
+    "restoreConfirmBody": "Der Snapshot von {device} vom {time} wird auf dieses Gerät angewendet. Vorhandene Einträge, die im Snapshot fehlen, bleiben erhalten.",
+    "restoreConfirmAction": "Wiederherstellen",
+    "cancel": "Abbrechen",
+    "emptySnapshot": "Dieser Snapshot enthält keine Konfigurationseinträge.",
+    "domain": {
+      "modelProviders": "{count, plural, one {# Modellanbieter} other {# Modellanbieter}}",
+      "agentSettings": "{count, plural, one {# Agenteneinstellung} other {# Agenteneinstellungen}}",
+      "customAgents": "{count, plural, one {# eigener Agent} other {# eigene Agenten}}",
+      "quickMessages": "{count, plural, one {# Schnellnachricht} other {# Schnellnachrichten}}",
+      "taskTemplates": "{count, plural, one {# Aufgabenvorlage} other {# Aufgabenvorlagen}}",
+      "preferences": "{count, plural, one {# Einstellung} other {# Einstellungen}}"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "Nicht genügend Speicherplatz, um den Vorgang abzuschließen.",
       "cancelled": "Der Vorgang wurde abgebrochen."
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "Dieser Snapshot stammt aus einer neueren codeg-Version (Format {snapshotVersion}); diese Version unterstützt höchstens Format {appVersion}.",
+      "checksum": "Der Snapshot passt nicht zu seiner Prüfsumme und ist möglicherweise unvollständig.",
+      "invalidSnapshot": "Diese Datei ist kein gültiger codeg-Konfigurations-Snapshot.",
+      "noRemoteSnapshot": "Auf dem Server liegt noch kein Konfigurations-Snapshot.",
+      "notConfigured": "Richte den WebDAV-Server ein, bevor du synchronisierst.",
+      "unauthorized": "Der WebDAV-Server hat Benutzername oder Passwort abgelehnt.",
+      "forbidden": "Der WebDAV-Server hat den Zugriff auf diesen Ordner verweigert.",
+      "remotePath": "Der entfernte Ordner oder der Profilname ist ungültig.",
+      "quota": "Auf dem WebDAV-Server ist kein Speicherplatz mehr frei.",
+      "network": "Der WebDAV-Server war nicht erreichbar.",
+      "server": "Der WebDAV-Server hat einen Fehler zurückgegeben ({status})."
     }
   },
   "WebConnection": {
