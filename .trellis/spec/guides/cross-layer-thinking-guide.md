@@ -299,6 +299,23 @@ Create detailed flow docs when:
 
 ---
 
+## Cross-Machine Config Boundary
+
+A value that travels between machines has a third consumer beyond frontend and
+backend: the *other device*. Before adding a config field or table, ask:
+
+- [ ] Should this follow the user across machines, or is it device-local
+      (paths, window geometry, credentials, anything with a local foreign key)?
+- [ ] If it should travel, is it added to `portable_keys::PORTABLE_PREFERENCE_KEYS`?
+      The list is an allowlist — forgetting it silently means "does not sync".
+- [ ] If it must NOT travel, is there a test asserting it stays out?
+- [ ] Does applying it twice change anything? Snapshots are applied by upsert
+      on a natural key, so the operation has to be idempotent.
+
+→ Contract details: [Config Sync Contract](../backend/config-sync-contract.md)
+
+---
+
 ## Event Log / Projection Boundary
 
 Append-only logs are cross-layer contracts. A single event travels through:
