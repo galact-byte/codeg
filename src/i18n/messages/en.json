@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "This replaces your current data with the snapshot, then restarts. The data being replaced is snapshotted first."
     }
   },
+  "ConfigSyncSettings": {
+    "title": "Configuration sync",
+    "description": "Move model providers, agent settings, custom agents, quick messages, task templates, and app preferences between machines. Conversations, uploaded files, and CLI session records are not included — use Backup for those.",
+    "scopeIncludedTitle": "Included",
+    "scopeExcludedTitle": "Not included",
+    "scopeIncluded": {
+      "providers": "Model providers (with API keys)",
+      "agentSettings": "Agent settings",
+      "customAgents": "Custom agents",
+      "quickMessages": "Quick messages",
+      "taskTemplates": "Task templates",
+      "preferences": "App preferences (language, appearance, toggles)"
+    },
+    "scopeExcluded": {
+      "conversations": "Conversations and history",
+      "uploads": "Uploaded files and images",
+      "workspaces": "Workspace projects and paths",
+      "mcp": "MCP servers (owned by each CLI)",
+      "credentials": "Login credentials and tokens"
+    },
+    "fileTitle": "Configuration file",
+    "exportButton": "Export to file",
+    "importButton": "Import from file",
+    "fileHint": "Writes one JSON file you can carry to another machine. Importing adds or updates entries; existing ones that are missing from the file are kept.",
+    "webdavTitle": "WebDAV sync",
+    "webdavHint": "Upload the configuration snapshot to your own WebDAV server.",
+    "presetLabel": "Server",
+    "preset": {
+      "jianguoyun": "Jianguoyun",
+      "nextcloud": "Nextcloud",
+      "synology": "Synology NAS",
+      "custom": "Custom"
+    },
+    "presetHint": {
+      "jianguoyun": "Jianguoyun needs an app password created in Security settings, not your login password.",
+      "nextcloud": "Replace the domain and username, then use an app password from Settings → Security.",
+      "synology": "Enable WebDAV Server in DSM Package Center; default ports are 5005 (HTTP) and 5006 (HTTPS)."
+    },
+    "serverUrl": "Server URL",
+    "username": "Username",
+    "password": "Password",
+    "passwordKeep": "Leave empty to keep the saved password",
+    "passwordPlaceholder": "App password",
+    "remoteDir": "Remote folder",
+    "profile": "Profile",
+    "profileHint": "Machines that share a profile share one configuration. Use separate profiles to keep work and personal setups apart.",
+    "autoSyncLabel": "Upload automatically",
+    "autoSyncHint": "Checks periodically and uploads only when the configuration changed.",
+    "intervalLabel": "Check interval",
+    "intervalOption": "Every {minutes} minutes",
+    "saveButton": "Save",
+    "testButton": "Test connection",
+    "uploadButton": "Sync now",
+    "restoreButton": "Restore from remote",
+    "saved": "Sync settings saved",
+    "testSucceeded": "Connected to the WebDAV server",
+    "uploaded": "Configuration uploaded",
+    "exported": "Configuration exported",
+    "restored": "{count, plural, one {# entry applied} other {# entries applied}}",
+    "imported": "{count, plural, one {# entry applied} other {# entries applied}}",
+    "noRemoteSnapshot": "There is no configuration snapshot on the server yet",
+    "lastSyncAt": "Last synced {time}",
+    "neverSynced": "Not synced yet",
+    "lastError": "Last error: {message}",
+    "working": "Working…",
+    "plaintextWarning": "The snapshot is uploaded unencrypted and includes API keys, so use a WebDAV server only you can reach. The sync credentials themselves are never part of the snapshot.",
+    "importConfirmTitle": "Import configuration?",
+    "importConfirmBody": "Entries from this file will be added or updated on this machine. Existing entries that the file does not mention are kept.",
+    "importBlocked": "This file cannot be imported.",
+    "importConfirmAction": "Import",
+    "restoreConfirmTitle": "Restore from remote?",
+    "restoreConfirmBody": "The snapshot from {device}, taken {time}, will be applied to this machine. Existing entries that the snapshot does not mention are kept.",
+    "restoreConfirmAction": "Restore",
+    "cancel": "Cancel",
+    "emptySnapshot": "This snapshot contains no configuration entries.",
+    "domain": {
+      "modelProviders": "{count, plural, one {# model provider} other {# model providers}}",
+      "agentSettings": "{count, plural, one {# agent setting} other {# agent settings}}",
+      "customAgents": "{count, plural, one {# custom agent} other {# custom agents}}",
+      "quickMessages": "{count, plural, one {# quick message} other {# quick messages}}",
+      "taskTemplates": "{count, plural, one {# task template} other {# task templates}}",
+      "preferences": "{count, plural, one {# preference} other {# preferences}}"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "Not enough disk space to complete the operation.",
       "cancelled": "The operation was cancelled."
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "This snapshot was created by a newer version of codeg (format {snapshotVersion}); this version understands up to format {appVersion}.",
+      "checksum": "The snapshot does not match its checksum and may be incomplete.",
+      "invalidSnapshot": "This file is not a valid codeg configuration snapshot.",
+      "noRemoteSnapshot": "There is no configuration snapshot on the server yet.",
+      "notConfigured": "Set up the WebDAV server before syncing.",
+      "unauthorized": "The WebDAV server rejected the username or password.",
+      "forbidden": "The WebDAV server denied access to this folder.",
+      "remotePath": "The remote folder or profile name is not valid.",
+      "quota": "The WebDAV server has no space left.",
+      "network": "Could not reach the WebDAV server.",
+      "server": "The WebDAV server returned an error ({status})."
     }
   },
   "WebConnection": {

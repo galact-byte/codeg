@@ -68,6 +68,35 @@ pub const BACKUP_I18N_KEY_CANCELLED: &str = "backup.error.cancelled";
 /// A restore is already staged and awaiting restart; only one at a time.
 pub const BACKUP_I18N_KEY_ALREADY_PENDING: &str = "backup.restore.error.alreadyPending";
 
+// ─── Config sync i18n keys ───────────────────────────────────────────
+//
+// Emitted by `commands::config_sync::*` and consumed by `ConfigSyncSettings`
+// on the frontend. MUST stay in lockstep with the TS constants in
+// `src/lib/config-sync.ts`.
+
+/// The snapshot declares a schema this binary cannot represent — the machine
+/// that wrote it runs a newer codeg. Params: `snapshotVersion`, `appVersion`.
+pub const CONFIG_SYNC_I18N_KEY_NEWER_SCHEMA: &str = "configSync.error.newerSchema";
+/// `config.json` did not match the size/sha256 the manifest recorded — a
+/// truncated upload or a share that was written by two machines at once.
+pub const CONFIG_SYNC_I18N_KEY_CHECKSUM: &str = "configSync.error.checksum";
+/// The file is not a codeg config snapshot, or its JSON is malformed.
+pub const CONFIG_SYNC_I18N_KEY_INVALID_SNAPSHOT: &str = "configSync.error.invalidSnapshot";
+/// The remote directory holds no snapshot yet (nothing was ever uploaded).
+pub const CONFIG_SYNC_I18N_KEY_NO_REMOTE: &str = "configSync.error.noRemoteSnapshot";
+/// WebDAV rejected the credentials (401).
+pub const CONFIG_SYNC_I18N_KEY_UNAUTHORIZED: &str = "configSync.error.unauthorized";
+/// WebDAV authenticated but refused the operation (403).
+pub const CONFIG_SYNC_I18N_KEY_FORBIDDEN: &str = "configSync.error.forbidden";
+/// The configured remote directory does not exist and could not be created.
+pub const CONFIG_SYNC_I18N_KEY_REMOTE_PATH: &str = "configSync.error.remotePath";
+/// The share is out of quota (507).
+pub const CONFIG_SYNC_I18N_KEY_QUOTA: &str = "configSync.error.quota";
+/// The request never reached the server (DNS, TLS, timeout, offline).
+pub const CONFIG_SYNC_I18N_KEY_NETWORK: &str = "configSync.error.network";
+/// The server answered with an unexpected status. Params: `status`.
+pub const CONFIG_SYNC_I18N_KEY_SERVER: &str = "configSync.error.server";
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum AppErrorCode {

@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "Esto reemplaza tus datos actuales por la instantánea y reinicia. Antes se guarda una instantánea de los datos que se reemplazan."
     }
   },
+  "ConfigSyncSettings": {
+    "title": "Sincronización de configuración",
+    "description": "Lleva proveedores de modelos, ajustes de agentes, agentes personalizados, mensajes rápidos, plantillas de tareas y preferencias de la app de un equipo a otro. No incluye conversaciones, archivos subidos ni registros de sesiones de CLI: para eso usa la copia de seguridad.",
+    "scopeIncludedTitle": "Incluido",
+    "scopeExcludedTitle": "No incluido",
+    "scopeIncluded": {
+      "providers": "Proveedores de modelos (con claves API)",
+      "agentSettings": "Ajustes de agentes",
+      "customAgents": "Agentes personalizados",
+      "quickMessages": "Mensajes rápidos",
+      "taskTemplates": "Plantillas de tareas",
+      "preferences": "Preferencias de la app (idioma, apariencia, interruptores)"
+    },
+    "scopeExcluded": {
+      "conversations": "Conversaciones e historial",
+      "uploads": "Archivos e imágenes subidos",
+      "workspaces": "Proyectos y rutas del espacio de trabajo",
+      "mcp": "Servidores MCP (los gestiona cada CLI)",
+      "credentials": "Credenciales de acceso y tokens"
+    },
+    "fileTitle": "Archivo de configuración",
+    "exportButton": "Exportar a un archivo",
+    "importButton": "Importar desde un archivo",
+    "fileHint": "Genera un único archivo JSON que puedes llevar a otro equipo. Al importar se añaden o actualizan entradas; las existentes que no aparezcan en el archivo se conservan.",
+    "webdavTitle": "Sincronización WebDAV",
+    "webdavHint": "Sube la instantánea de configuración a tu propio servidor WebDAV.",
+    "presetLabel": "Servidor",
+    "preset": {
+      "jianguoyun": "Jianguoyun",
+      "nextcloud": "Nextcloud",
+      "synology": "NAS Synology",
+      "custom": "Personalizado"
+    },
+    "presetHint": {
+      "jianguoyun": "Jianguoyun requiere una contraseña de aplicación creada en los ajustes de seguridad, no la de inicio de sesión.",
+      "nextcloud": "Sustituye el dominio y el usuario y usa una contraseña de aplicación de Ajustes → Seguridad.",
+      "synology": "Activa WebDAV Server en el Centro de paquetes de DSM; los puertos por defecto son 5005 (HTTP) y 5006 (HTTPS)."
+    },
+    "serverUrl": "URL del servidor",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "passwordKeep": "Déjalo vacío para mantener la contraseña guardada",
+    "passwordPlaceholder": "Contraseña de aplicación",
+    "remoteDir": "Carpeta remota",
+    "profile": "Perfil",
+    "profileHint": "Los equipos que comparten perfil comparten una misma configuración. Usa perfiles distintos para separar el entorno de trabajo del personal.",
+    "autoSyncLabel": "Subir automáticamente",
+    "autoSyncHint": "Comprueba con regularidad y sube solo cuando la configuración ha cambiado.",
+    "intervalLabel": "Intervalo de comprobación",
+    "intervalOption": "Cada {minutes} minutos",
+    "saveButton": "Guardar",
+    "testButton": "Probar conexión",
+    "uploadButton": "Sincronizar ahora",
+    "restoreButton": "Restaurar desde el servidor",
+    "saved": "Ajustes de sincronización guardados",
+    "testSucceeded": "Conexión con el servidor WebDAV establecida",
+    "uploaded": "Configuración subida",
+    "exported": "Configuración exportada",
+    "restored": "{count, plural, one {# entrada aplicada} other {# entradas aplicadas}}",
+    "imported": "{count, plural, one {# entrada aplicada} other {# entradas aplicadas}}",
+    "noRemoteSnapshot": "Todavía no hay ninguna instantánea de configuración en el servidor",
+    "lastSyncAt": "Última sincronización: {time}",
+    "neverSynced": "Sin sincronizar todavía",
+    "lastError": "Último error: {message}",
+    "working": "Trabajando…",
+    "plaintextWarning": "La instantánea se sube sin cifrar e incluye claves de API, así que usa un servidor WebDAV al que solo tú tengas acceso. Las credenciales de sincronización nunca forman parte de la instantánea.",
+    "importConfirmTitle": "¿Importar la configuración?",
+    "importConfirmBody": "Las entradas del archivo se añadirán o actualizarán en este equipo. Las entradas existentes que el archivo no menciona se conservan.",
+    "importBlocked": "Este archivo no se puede importar.",
+    "importConfirmAction": "Importar",
+    "restoreConfirmTitle": "¿Restaurar desde el servidor?",
+    "restoreConfirmBody": "Se aplicará en este equipo la instantánea de {device} creada el {time}. Las entradas existentes que la instantánea no menciona se conservan.",
+    "restoreConfirmAction": "Restaurar",
+    "cancel": "Cancelar",
+    "emptySnapshot": "Esta instantánea no contiene ninguna entrada de configuración.",
+    "domain": {
+      "modelProviders": "{count, plural, one {# proveedor de modelos} other {# proveedores de modelos}}",
+      "agentSettings": "{count, plural, one {# ajuste de agente} other {# ajustes de agentes}}",
+      "customAgents": "{count, plural, one {# agente personalizado} other {# agentes personalizados}}",
+      "quickMessages": "{count, plural, one {# mensaje rápido} other {# mensajes rápidos}}",
+      "taskTemplates": "{count, plural, one {# plantilla de tarea} other {# plantillas de tareas}}",
+      "preferences": "{count, plural, one {# preferencia} other {# preferencias}}"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "No hay espacio en disco suficiente para completar la operación.",
       "cancelled": "La operación fue cancelada."
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "Esta instantánea se creó con una versión más reciente de codeg (formato {snapshotVersion}); esta versión admite hasta el formato {appVersion}.",
+      "checksum": "La instantánea no coincide con su suma de verificación y podría estar incompleta.",
+      "invalidSnapshot": "Este archivo no es una instantánea de configuración de codeg válida.",
+      "noRemoteSnapshot": "Todavía no hay ninguna instantánea de configuración en el servidor.",
+      "notConfigured": "Configura el servidor WebDAV antes de sincronizar.",
+      "unauthorized": "El servidor WebDAV rechazó el usuario o la contraseña.",
+      "forbidden": "El servidor WebDAV denegó el acceso a esta carpeta.",
+      "remotePath": "La carpeta remota o el nombre del perfil no son válidos.",
+      "quota": "El servidor WebDAV no tiene espacio disponible.",
+      "network": "No se pudo contactar con el servidor WebDAV.",
+      "server": "El servidor WebDAV devolvió un error ({status})."
     }
   },
   "WebConnection": {

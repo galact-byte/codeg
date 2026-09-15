@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "현재 데이터를 이 스냅샷으로 바꾸고 재시작합니다. 교체되는 데이터는 먼저 스냅샷으로 보관됩니다."
     }
   },
+  "ConfigSyncSettings": {
+    "title": "설정 동기화",
+    "description": "모델 공급자, 에이전트 설정, 사용자 에이전트, 빠른 메시지, 작업 템플릿, 앱 환경설정을 여러 기기에서 공유합니다. 대화 기록, 업로드한 파일, CLI 세션 기록은 포함되지 않으니 백업 기능을 사용하세요.",
+    "scopeIncludedTitle": "포함됨",
+    "scopeExcludedTitle": "포함되지 않음",
+    "scopeIncluded": {
+      "providers": "모델 공급업체(API 키 포함)",
+      "agentSettings": "에이전트 설정",
+      "customAgents": "사용자 지정 에이전트",
+      "quickMessages": "빠른 메시지",
+      "taskTemplates": "작업 템플릿",
+      "preferences": "앱 기본 설정(언어, 테마, 토글)"
+    },
+    "scopeExcluded": {
+      "conversations": "대화 기록",
+      "uploads": "업로드한 파일과 이미지",
+      "workspaces": "워크스페이스 프로젝트와 경로",
+      "mcp": "MCP 서버(각 CLI가 관리)",
+      "credentials": "로그인 자격 증명과 토큰"
+    },
+    "fileTitle": "설정 파일",
+    "exportButton": "파일로 내보내기",
+    "importButton": "파일에서 가져오기",
+    "fileHint": "다른 기기로 옮길 수 있는 JSON 파일 하나를 만듭니다. 가져올 때는 항목을 추가하거나 업데이트하며, 파일에 없는 기존 항목은 그대로 남습니다.",
+    "webdavTitle": "WebDAV 동기화",
+    "webdavHint": "설정 스냅샷을 직접 운영하는 WebDAV 서버에 업로드합니다.",
+    "presetLabel": "서버",
+    "preset": {
+      "jianguoyun": "Jianguoyun",
+      "nextcloud": "Nextcloud",
+      "synology": "Synology NAS",
+      "custom": "사용자 지정"
+    },
+    "presetHint": {
+      "jianguoyun": "Jianguoyun은 로그인 비밀번호가 아니라 보안 설정에서 만든 앱 비밀번호가 필요합니다.",
+      "nextcloud": "도메인과 사용자 이름을 바꾸고 「설정 → 보안」의 앱 비밀번호를 사용하세요.",
+      "synology": "DSM 패키지 센터에서 WebDAV Server를 활성화하세요. 기본 포트는 5005(HTTP) / 5006(HTTPS)입니다."
+    },
+    "serverUrl": "서버 URL",
+    "username": "사용자 이름",
+    "password": "비밀번호",
+    "passwordKeep": "비워 두면 저장된 비밀번호를 유지합니다",
+    "passwordPlaceholder": "앱 비밀번호",
+    "remoteDir": "원격 폴더",
+    "profile": "프로필",
+    "profileHint": "같은 프로필을 쓰는 기기는 하나의 설정을 공유합니다. 업무용과 개인용을 나누려면 프로필을 다르게 지정하세요.",
+    "autoSyncLabel": "자동 업로드",
+    "autoSyncHint": "주기적으로 확인하고 설정이 바뀜을 때만 업로드합니다.",
+    "intervalLabel": "확인 주기",
+    "intervalOption": "{minutes}분마다",
+    "saveButton": "저장",
+    "testButton": "연결 테스트",
+    "uploadButton": "지금 동기화",
+    "restoreButton": "원격에서 복원",
+    "saved": "동기화 설정을 저장했습니다",
+    "testSucceeded": "WebDAV 서버에 연결되었습니다",
+    "uploaded": "설정을 업로드했습니다",
+    "exported": "설정을 내보냈습니다",
+    "restored": "설정 {count}건을 적용했습니다",
+    "imported": "설정 {count}건을 적용했습니다",
+    "noRemoteSnapshot": "서버에 아직 설정 스냅샷이 없습니다",
+    "lastSyncAt": "마지막 동기화: {time}",
+    "neverSynced": "아직 동기화하지 않았습니다",
+    "lastError": "마지막 오류: {message}",
+    "working": "처리 중…",
+    "plaintextWarning": "스냅샷은 암호화되지 않은 상태로 업로드되며 API 키를 포함합니다. 본인만 접근할 수 있는 WebDAV 서버를 사용하세요. 동기화 자격 증명 자체는 스냅샷에 포함되지 않습니다.",
+    "importConfirmTitle": "설정을 가져올까요?",
+    "importConfirmBody": "파일의 항목이 이 기기에 추가되거나 업데이트됩니다. 파일에 없는 기존 항목은 유지됩니다.",
+    "importBlocked": "이 파일은 가져올 수 없습니다.",
+    "importConfirmAction": "가져오기",
+    "restoreConfirmTitle": "원격에서 복원할까요?",
+    "restoreConfirmBody": "{device}에서 {time}에 만든 스냅샷을 이 기기에 적용합니다. 스냅샷에 없는 기존 항목은 유지됩니다.",
+    "restoreConfirmAction": "복원",
+    "cancel": "취소",
+    "emptySnapshot": "이 스냅샷에는 설정 항목이 없습니다.",
+    "domain": {
+      "modelProviders": "모델 공급자 {count}개",
+      "agentSettings": "에이전트 설정 {count}개",
+      "customAgents": "사용자 에이전트 {count}개",
+      "quickMessages": "빠른 메시지 {count}개",
+      "taskTemplates": "작업 템플릿 {count}개",
+      "preferences": "앱 환경설정 {count}개"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "작업을 완료할 디스크 공간이 부족합니다.",
       "cancelled": "작업이 취소되었습니다."
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "이 스냅샷은 더 새로운 버전의 codeg(형식 {snapshotVersion})에서 만들었습니다. 현재 버전은 형식 {appVersion}까지 지원합니다.",
+      "checksum": "스냅샷이 체크섬과 일치하지 않아 손상되었을 수 있습니다.",
+      "invalidSnapshot": "이 파일은 유효한 codeg 설정 스냅샷이 아닙니다.",
+      "noRemoteSnapshot": "서버에 아직 설정 스냅샷이 없습니다.",
+      "notConfigured": "동기화하기 전에 WebDAV 서버를 설정하세요.",
+      "unauthorized": "WebDAV 서버가 사용자 이름 또는 비밀번호를 거부했습니다.",
+      "forbidden": "WebDAV 서버가 이 폴더에 대한 접근을 거부했습니다.",
+      "remotePath": "원격 폴더 또는 프로필 이름이 올바르지 않습니다.",
+      "quota": "WebDAV 서버에 남은 공간이 없습니다.",
+      "network": "WebDAV 서버에 연결할 수 없습니다.",
+      "server": "WebDAV 서버가 오류를 반환했습니다({status})."
     }
   },
   "WebConnection": {

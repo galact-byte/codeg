@@ -4647,6 +4647,90 @@
       "rollbackConfirmBody": "这会用该快照替换当前数据并重启。被替换的数据会先做快照。"
     }
   },
+  "ConfigSyncSettings": {
+    "title": "配置同步",
+    "description": "在多台设备之间同步模型服务商、智能体设置、自定义智能体、快捷消息、任务模板和应用偏好。不包含会话记录、上传文件和 CLI 会话数据，那些请用备份功能。",
+    "scopeIncludedTitle": "包含",
+    "scopeExcludedTitle": "不包含",
+    "scopeIncluded": {
+      "providers": "模型服务商（含 API 密钥）",
+      "agentSettings": "智能体设置",
+      "customAgents": "自定义智能体",
+      "quickMessages": "快捷消息",
+      "taskTemplates": "任务模板",
+      "preferences": "应用偏好（语言、外观、开关）"
+    },
+    "scopeExcluded": {
+      "conversations": "会话记录与历史",
+      "uploads": "上传的文件与图片",
+      "workspaces": "工作区项目与路径",
+      "mcp": "MCP 服务器（归各 CLI 自己管）",
+      "credentials": "登录凭据与令牌"
+    },
+    "fileTitle": "配置文件",
+    "exportButton": "导出到文件",
+    "importButton": "从文件导入",
+    "fileHint": "导出为单个 JSON 文件，可拷贝到另一台设备。导入时按条目新增或更新，文件中没有的本地条目会保留。",
+    "webdavTitle": "WebDAV 同步",
+    "webdavHint": "把配置快照上传到你自己的 WebDAV 服务器。",
+    "presetLabel": "服务商",
+    "preset": {
+      "jianguoyun": "坚果云",
+      "nextcloud": "Nextcloud",
+      "synology": "群晖 NAS",
+      "custom": "自定义"
+    },
+    "presetHint": {
+      "jianguoyun": "坚果云需要在「安全选项」里生成应用密码，不能用登录密码。",
+      "nextcloud": "把域名和用户名换成你自己的，密码用「设置 → 安全」里生成的应用密码。",
+      "synology": "需要在 DSM 套件中心安装并启用 WebDAV Server，默认端口 5005（HTTP）/ 5006（HTTPS）。"
+    },
+    "serverUrl": "服务器地址",
+    "username": "用户名",
+    "password": "密码",
+    "passwordKeep": "留空则沿用已保存的密码",
+    "passwordPlaceholder": "应用密码",
+    "remoteDir": "远程目录",
+    "profile": "配置集",
+    "profileHint": "使用相同配置集的设备共享同一份配置；想区分工作与个人环境时可以分开命名。",
+    "autoSyncLabel": "自动上传",
+    "autoSyncHint": "定期检查，只在配置发生变化时上传。",
+    "intervalLabel": "检查间隔",
+    "intervalOption": "每 {minutes} 分钟",
+    "saveButton": "保存",
+    "testButton": "测试连接",
+    "uploadButton": "立即同步",
+    "restoreButton": "从远程恢复",
+    "saved": "同步设置已保存",
+    "testSucceeded": "已成功连接 WebDAV 服务器",
+    "uploaded": "配置已上传",
+    "exported": "配置已导出",
+    "restored": "已应用 {count} 条配置",
+    "imported": "已应用 {count} 条配置",
+    "noRemoteSnapshot": "服务器上还没有配置快照",
+    "lastSyncAt": "上次同步：{time}",
+    "neverSynced": "尚未同步",
+    "lastError": "上次错误：{message}",
+    "working": "处理中…",
+    "plaintextWarning": "快照以明文上传且包含 API 密钥，请只使用只有你能访问的 WebDAV 服务器。同步凭据本身不会写入快照。",
+    "importConfirmTitle": "导入配置？",
+    "importConfirmBody": "文件中的条目将在本机新增或更新，文件未涉及的本地条目会保留。",
+    "importBlocked": "这个文件无法导入。",
+    "importConfirmAction": "导入",
+    "restoreConfirmTitle": "从远程恢复？",
+    "restoreConfirmBody": "将把 {device} 在 {time} 上传的快照应用到本机，快照未涉及的本地条目会保留。",
+    "restoreConfirmAction": "恢复",
+    "cancel": "取消",
+    "emptySnapshot": "这份快照里没有任何配置条目。",
+    "domain": {
+      "modelProviders": "{count} 个模型服务商",
+      "agentSettings": "{count} 项智能体设置",
+      "customAgents": "{count} 个自定义智能体",
+      "quickMessages": "{count} 条快捷消息",
+      "taskTemplates": "{count} 个任务模板",
+      "preferences": "{count} 项应用偏好"
+    }
+  },
   "backup": {
     "restore": {
       "error": {
@@ -4660,6 +4744,21 @@
     "error": {
       "diskSpace": "磁盘空间不足，无法完成操作。",
       "cancelled": "操作已取消。"
+    }
+  },
+  "configSync": {
+    "error": {
+      "newerSchema": "这份快照由更新版本的 codeg 创建（格式 {snapshotVersion}），当前版本最高支持格式 {appVersion}。",
+      "checksum": "快照与校验值不符，可能不完整。",
+      "invalidSnapshot": "这不是有效的 codeg 配置快照文件。",
+      "noRemoteSnapshot": "服务器上还没有配置快照。",
+      "notConfigured": "请先完成 WebDAV 服务器配置再同步。",
+      "unauthorized": "WebDAV 服务器拒绝了该用户名或密码。",
+      "forbidden": "WebDAV 服务器拒绝访问该目录。",
+      "remotePath": "远程目录或配置集名称无效。",
+      "quota": "WebDAV 服务器已无可用空间。",
+      "network": "无法连接到 WebDAV 服务器。",
+      "server": "WebDAV 服务器返回错误（{status}）。"
     }
   },
   "WebConnection": {
