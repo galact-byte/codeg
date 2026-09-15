@@ -67,3 +67,6 @@ src-tauri/binaries/
 # developer runs, so they are a local choice, not a repo asset.
 .agents/
 .pi/
+
+# Local AI tooling cache (project-memory scans), regenerated on demand.
+.omc/
